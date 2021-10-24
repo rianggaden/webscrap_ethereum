@@ -103,6 +103,9 @@ First, visualization of the `df` dataframe in the form of a line chart is carrie
 ```
 df.plot(figsize=(16, 4), grid=True, title='Ethereum Volume Trend', xlabel='Date', ylabel='Volume (in 100B USD)')
 ```
+
+![Plot Results](https://github.com/rianggaden/webscrap_ethereum/blob/main/assets/plot_resutls.png?raw=true)
+
 At first glance, you will find out that the trading volume in 2021 is higher than in 2020. So I decide to do further analysis by analyzing the volatility and total of trading volume for each year in semester 1.
 
 ## Conclusion
