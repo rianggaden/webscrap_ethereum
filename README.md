@@ -79,7 +79,7 @@ temp = temp[::-1] #change row order. Descending frow oldest to newest
 temp
 ```
 
-## Creating data frame & Data wrangling
+## Creating Dataframe & Data wrangling
 ```
 #put the array into dataframe
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
