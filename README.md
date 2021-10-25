@@ -31,47 +31,49 @@ By using inspection from the website, we will find that line table tbody that co
 ```
 table = soup.find('tbody')
 ```
-From the line we just extract, we will find classes of each data we need as follows:
-- date: `th, class="font-semibold text-center"`
-- volume: `td, class="text-center"`
+From the line we just extract, we get all the content we needed. From the results above, we will use `find_all` to get all `<tr>` that represents data row.
+```
+#get row elements
+row = table.find_all('tr')
+row[0] #slicing to get first row
+```
 
 ## Extracting Information
-Run this code to find row lenght of date and volume, we will use that value for our looping process:
+To get date and volume object, we can use `find_all` method based on each `class` and slicing
+```
+#get date
+row[0].find_all('th', attrs={'class':'font-semibold text-center'})[0].text
+```
+```
+#get volume
+row[0].find_all('td', attrs={'class':'text-center'})[1].text 
+
+#using number 1 because volume lies on index 1 in text-center class
+```
+find row lenght of `<tr>`, we will use that value for our looping process.
 ```
 #date row lenght
-row = table.find_all('th', attrs={'class':'font-semibold text-center'})
-row_length = len(row)
+row_length=len(row)
 row_length
 ```
-```
-#volume row lenght
-row2 = table.find_all('td', attrs={'class':'text-center'})
-row_length2 = len(row2)
-row_length2
-```
-You will find that the results above seem odd because `data` and `volume` have different number of rows. This happens because `volume` has the same class as the other columns such as **Market Cap**, **Open**, and **Close**. So when we try to call that `class`, other data will also be called, causing the number of row increase. To get a better understanding of class `text-center` data, we will convert it to `list` type:
-```
-temp_vol = []
 
-for i in range(0, 15):
-    volume = table.find_all('td', attrs={'class':'text-center'})[i].text.strip()
-    temp_vol.append(volume)
+Now we know the length of our data, now here what we will do for the looping process. 
 
-temp_vol
-```
-We found that the volume data lies in list number 1, 5, 9, 13, ... with a 4-digit gap.
+Here what the looping do to scrap the information: 
 
-From the analysis above, the scrapping process is then carried out by creating a special variable x which starts from number 1 and enters the looping process by adding 4 values for each iteration.
-
-In the case of date, we can use a normal loop to get the list.
+- First we need to establish a placeholder to receive the information that we scrap. 
+- We named our placeholder `temp` and it's a list. 
+- Then we will make a loop from one until the the length of the table row, 
+- which we will find all cell of the column one and two which contain date and volume. 
+- Then we will append it to our tuple that we prepared before, 
+- every one iteration we will scrap one line of the table. 
 ```
 temp = []
-x = 1
 
 for i in range(0, row_length):
-    date = table.find_all('th', attrs={'class':'font-semibold text-center'})[i].text
-    volume = table.find_all('td', attrs={'class':'text-center'})[x].text.strip()
-    x = x+4
+    
+    date = row[i].find_all('th', attrs={'class':'font-semibold text-center'})[0].text
+    volume = row[i].find_all('td', attrs={'class':'text-center'})[1].text.strip()
     
     temp.append((date,volume))
 
